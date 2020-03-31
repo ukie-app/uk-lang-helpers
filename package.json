@@ -1,0 +1,23 @@
+{
+  "name": "uk-lang-helpers",
+  "version": "1.0.0",
+  "description": "helper functions for processing the Ukrainian language",
+  "main": "index.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jellysquider/uk-lang-helpers.git"
+  },
+  "keywords": [
+    "Ukrainian",
+    "language"
+  ],
+  "author": "Gabriela Medvetska",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/jellysquider/uk-lang-helpers/issues"
+  },
+  "homepage": "https://github.com/jellysquider/uk-lang-helpers#readme"
+}
