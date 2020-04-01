@@ -2,14 +2,17 @@
 A repo for storing helper functions needed to process the Ukrainian language in various ways
 
 
-# splitTheWordBySyllables
+### splitTheWordIntoSyllables(str: word)
 
-splits the word into syllables
+This function splits the word into syllables
 
 Syllable forming rules:
-  Based on rules specified in [EdEra book](https://edera.gitbook.io/ed-era-book-ukr/fonetika_grafka_orfoepya/sklad_skladopodl)
+ 
+Based on rules specified in [EdEra book](https://edera.gitbook.io/ed-era-book-ukr/fonetika_grafka_orfoepya/sklad_skladopodl)
 
-1. Vowels form syllables
+Vowels form syllables
+
+What defines whether a constant joins current syllable or the next:
 
 * constant belongs to the current syllable in these cases:
   - it's the first or the last character in the string (`к` in `кни-га`)
