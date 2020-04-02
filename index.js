@@ -7,130 +7,258 @@
 
   Sources used to create this function:
 
-  http://8next.com/umova/1534-umova_106.html
-  https://zno.if.ua/?p=1414
+  https://edera.gitbook.io/ed-era-book-ukr/fonetika_grafka_orfoepya/sklad_skladopodl
+  https://uk.wikipedia.org/wiki/%D0%A1%D0%BA%D0%BB%D0%B0%D0%B4_(%D0%BC%D0%BE%D0%B2%D0%BE%D0%B7%D0%BD%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D0%BE)
 
 
 */
 
-exports.splitTheWordBySyllables = function (word) {
-      
-  let consonants = ['б', 'в', 'г', 'ґ', 'д', 'ж', 'з', 'й', 'к', 'л', 'м', 'н', 'п', 'р', 'с', 'т', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь']
-  
+exports.splitTheWordIntoSyllables = function (word, enableDebug = false) {
+
+  function log(message) {
+    if (enableDebug) { 
+      console.log(message)
+    }
+  }
+
+  const vowels = ["а", "е", "є", "и", "і", "ї", "о", "у", "ю", "я"]
+
+  const consonants = ["б", "в", "г", "ґ", "д", "ж", "з", "й", "к", "л", "м", "н", "п", "р", "с", "т", "ф", "х", "ц", "ч", "ш", "щ", "ь"]
+
   // sonorant consonant sounds
-  let sonorantConsonantSounds = ['м', 'й', 'р', 'рь', 'в', 'л', 'ль', 'н', 'нь']
+  const sonorantConsonantSounds = ["м", "й", "р", "рь", "в", "л", "ль", "н", "нь"]
 
   // voiced consonant sounds
-  let voicedConsonantSounds = ['б', 'д', 'дь', 'з', 'зь', 'дз', 'дзь', 'ж', 'дж', 'ґ', 'г']
+  const voicedConsonantSounds = ["б", "д", "дь", "з", "зь", "дз", "дзь", "ж", "дж", "ґ", "г"]
     
   // voiceless consonant sounds
-  let voicelessConsonantSounds = ['х', 'ч', 'ц', 'ць', 'ф', 'к', 'с', 'сь', 'ш', 'п', 'т', 'ть']
+  const voicelessConsonantSounds = ["х", "ч", "ц", "ць", "ф", "к", "с", "сь", "ш", "п", "т", "ть"]
   
-  let vowels = ['а', 'е', 'є', 'и', 'і', 'ї', 'о', 'у', 'ю', 'я']
+  log("word", word)
 
-  console.log("word", word)
-
-  let prevChar = word[0]
+  // initialize variables
+  let prevChar = ""
   let currChar = ""
   let nextChar = ""
-  let countChars = {}
-  let outWord = ""
-  let numOfConsonantsInARow = 0
-  let numOfVowelsInARow = 0
-  let charNum = 0
+  let currSyllable = ""
 
-  for (charNum in word) {
+  let numOfSyllables = 0
+  let remainingNumOfSyllables = 0
+  
+  // store syllables in an array
+  let syllables = []
 
-    // console.log("char", word[charNum])
+  /*
+    count number of vowels in this word
+    in order to know how many syllables
+    it should contain
+  */
+  for (let char of word) {
+    for (let vowel of vowels) {
+      if (char === vowel) {
+        numOfSyllables += 1
+      }
+    }
+  }
 
-    // if the word has only one vowel, it has only one syllable
+  /*
+    count number of vowels in a syllable
+    in order to know if it can be split or not
+  */
+  const containsVowel = (syllableToCheck) => {
+    let containsVowel = false
 
-    // handle prevChar in the beginning of the word
+    for (let char of syllableToCheck) {
+      if (vowels.includes(char)) {
+        containsVowel = true
+        return containsVowel
+      }
+    }
+
+    return containsVowel
+  }
+
+  
+  const decideWhetherToFormNewSyllable = (currSyllable, currChar) => {
+    // calculate how many syllables remain after this one will be created
+    remainingNumOfSyllables = numOfSyllables - syllables.length - 1 
+
+    // if at least one will remain, it's safe to create it
+    if (remainingNumOfSyllables > 0) {
+      log("contains vowel?", containsVowel(currSyllable))
+      // if there is a vowel in the current syllable, it's safe to create a new one
+      if (containsVowel(currSyllable)) {
+        log("form, syllables remaining:", remainingNumOfSyllables)
+        syllables.push(currSyllable)
+        currSyllable = currChar
+      }
+      // if there is no vowel, current syllable cannot exist
+      // therefore a new syllable cannot be formed
+      else {
+        log("do not form, no vowels in the previous syllable")
+        currSyllable += currChar
+      }
+    }
+    // potential new syllable won't have any vowels
+    // it cannot exist
+    else {
+      log("do not form, no more vowels in the next syllable")
+      currSyllable += currChar
+    }
+    
+    return currSyllable
+  }
+
+  log("THERE SHOULD BE", numOfSyllables, "SYLLABLE(S)")
+
+  for (let charNum = 0; charNum < word.length; charNum++) {
+
+    // append soft sign without any processing
+    if (word[charNum] === "ь") {
+      currSyllable += word[charNum]
+    }
+
+    // handle prevChar only after we are past 1st character
     if (charNum > 0) {
+      // assing prevChar to the previous neighbor
       prevChar = word[charNum - 1]
+      // if it's soft sign
+      // assign prevChar to the previous previous neighbor
+      if (prevChar === "ь") {
+        // check for beggining of the string
+        if (charNum > 1) {
+          prevChar = word[charNum - 2]
+        }
+        else {
+          prevChar = ""
+        }
+      }
     }
     
     // update currChar
     currChar = word[charNum]
 
-    // handle nextChar at the end of the word
+    // update nextChar only if the string is not overflown
+    // (before its end)
     if (charNum < word.length - 1) {
-      nextIndex = parseInt(charNum) + 1
-      nextChar = word.charAt(nextIndex)
+      // assing nextChar to the next neighbor
+      nextChar = word[charNum + 1]
+      // if it's soft sign
+      // assign nextChar to the next next neighbor
+      if (nextChar === "ь") {
+        // check for the end of the string
+        if (charNum < word.length - 2) {
+          nextChar = word[charNum + 2]
+        }
+        else {
+          nextChar = ""
+        }
+      }
     }
     else {
       nextChar = ""
     }
 
-    console.log()
+    log("\nprevChar", prevChar, "\ncurrChar", currChar, "\nnextChar", nextChar)
 
-    console.log("\nprevChar", prevChar, "\ncurrChar", currChar, "\nnextChar", nextChar)
-
-    if (consonants.includes(currChar)) {
-      // check which kind of consonant
-
-      /*
-        if there is one consonant between
-        2 vowels, it belongs to the next syllable
-
-        e.g о-сі
-      */
-      
-      if ((numOfVowelsInARow > 0) && (vowels.includes(nextChar))) {
-        outWord += '-'
-        console.log("add dash")
-      }
-
-      /* 
-        handle cases of non-breaking syllables
-        дз, дж which stand for one sound
-
-        e.g. пе-ре-дзвін
-      */
-      else if (currChar === 'д') {
-        if ((nextChar === 'з') || (nextChar === 'ж')) {
-          console.log("encountered д + ", nextChar)
-        }
-      }
-
-
-      /* 
-      doubled consonants stay together
-      they get attached to the next vowel
-      
-      e.g. зав-да́-ння, зна-ння, гі-лля, стра-хі́-ття
-      */
-      else if (currChar === nextChar) {
-        console.log("encountered double consonant")
-      }
-
-
-      numOfConsonantsInARow += 1
+    // first char or last char in the string
+    // (except soft sign)
+    // just gets added automatically
+    if ((charNum === 0) || (charNum === word.length - 1) && (currChar !== "ь")) {
+      log("add first/last letter:", currChar)
+      currSyllable += currChar
     }
-    // vowel
+
+    // the rest of the string
     else {
       
+      // if currChar is a vowel
+      if (vowels.includes(currChar)) {
+        // if the previous char is a vowel and the next is a consonant
+        if ((vowels.includes(prevChar)) && (consonants.includes(nextChar))) {
+          // form a new syllable
+          log("decide whether to form a new syllable with", currChar)
+          currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          
+        }
+        else {
+          // just add to the current syllable
+          log("add to the current syllable letter:", currChar)
+          currSyllable += currChar
+        }
+        
+      }
 
-      numOfVowelsInARow += 1
+      // current character is a consonant
+      else {
+        // proceed if currChar is not soft sign
+        if (currChar !== "ь") {
+        
+          // case: 1 both neighbors are vowels
+          if (vowels.includes(prevChar) && vowels.includes(nextChar)) {
+            // this consonant belongs to the next syllable
+            log("case 1, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+
+          // case 2: it's sonorant and its previous neighbor is sonorant as well
+          else if (sonorantConsonantSounds.includes(currChar) && sonorantConsonantSounds.includes(prevChar)) {
+            log("case 2, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+          
+          // case 3: it's voiced and its previous neighbor is voiceless
+          else if (voicelessConsonantSounds.includes(currChar) && voicedConsonantSounds.includes(prevChar)) {
+            log("case 3, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+            
+          // case 4: the next consonant neighbor is the same type (voiced or voiceless)
+          else if ((voicedConsonantSounds.includes(currChar) && voicedConsonantSounds.includes(nextChar)) ||
+            ((voicelessConsonantSounds.includes(currChar) && voicelessConsonantSounds.includes(nextChar)))) {
+            log("case 4, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+            
+          // case 5: it's voiced or voiceless consonant (not sonorant) and its next neighbor is sonorant
+          else if (!sonorantConsonantSounds.includes(currChar) && sonorantConsonantSounds.includes(nextChar)) {
+            log("case 5, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+            
+          // case 6: its next neighbor is the same letter (doubling of consonants) 
+          else if (currChar === nextChar) {
+            log("case 5, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+          
+          // extra
+          // case 7: it's voiced or voiceless consonant (not sonorant) and its previous neighbor is sonorant
+          else if (!sonorantConsonantSounds.includes(currChar) && sonorantConsonantSounds.includes(prevChar)) {
+            log("case 7, decide whether to form a new syllable with", currChar)
+            currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          }
+            
+          else {
+            log("add to the current syllable letter:", currChar)
+            currSyllable += currChar
+          }
+        }
+      }
     }
-    outWord += currChar
-    // if (consonants.includes(currChar) &&
-    //   vowels.includes(prevChar) &&
-    //   vowels.includes(nextChar)
-    // ) {
-    //   outWord += currChar
-    // }
 
+    log("\ncurrSyllable", currSyllable)
 
+    // save the last syllable
+    if (charNum === word.length - 1) {
+      syllables.push(currSyllable)
+    }
 
-    
-
-    // keep track letters and their count
-    countChars[word[charNum]] += 1
-    console.log("\noutSTR", outWord)
   }
 
-  return outWord
-  
+  log("\nsyllables list:", syllables)
+
+  // combine the list of syllables into one string separated by hyphens
+  return syllables.join("-")
 
 }

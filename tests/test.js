@@ -1,8 +1,11 @@
-const {splitTheWordBySyllables} = require('../index')
+const assert = require('assert')
+const { splitTheWordIntoSyllables } = require('../index')
 
+const testObj = require('./testObj')
 
-const outWord = splitTheWordBySyllables("осінь")
+Object.values(testObj.tests).map(testWord => 
+  // replace hyphens to try a string
+  assert.equal(splitTheWordIntoSyllables(testWord.replace(/-/g, "")), testWord),
+)
 
-if (typeof outWord !== "undefined") {
-  console.log("\nfinalSTR", outWord)
-}
+console.log("Finished running all tests")

@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/jellysquider/uk-lang-helpers/issues"
   },
-  "homepage": "https://github.com/jellysquider/uk-lang-helpers#readme"
+  "homepage": "https://github.com/jellysquider/uk-lang-helpers#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
 }

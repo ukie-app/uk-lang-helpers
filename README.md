@@ -7,6 +7,7 @@ A repo for storing helper functions needed to process the Ukrainian language in 
 splits the word into syllables
 
 Syllable forming rules:
+
   Based on rules specified in [EdEra book](https://edera.gitbook.io/ed-era-book-ukr/fonetika_grafka_orfoepya/sklad_skladopodl)
 
     1. Vowels form syllables
