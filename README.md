@@ -1,7 +1,7 @@
 # uk-lang-helpers
 A repo for storing helper functions needed to process the Ukrainian language in various ways
 
-## Available functions:
+## Contents:
 * [splitTheWordIntoSyllables(str: word, enableDebug: false)](#splitTheWordIntoSyllables)
 
 ## Usage
@@ -20,6 +20,8 @@ if you want to clone GitHub repo and test it locally you can run
 
 to run tests specified in the `tests/testObj.js` file
 
+
+## Available functions:
 <a name="splitTheWordIntoSyllables"></a>
 ### splitTheWordIntoSyllables(str: word, enableDebug: false)
 
