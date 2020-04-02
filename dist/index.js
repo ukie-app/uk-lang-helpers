@@ -1,7 +1,8 @@
 /* 
 
-  This function is created to split the word by the syllables
+  This function is created to split the word into syllables
   splitting the word like that is useful when learning how to read
+  although it has numerous applications in linguistic analysis
 
   Author: Gabriela Medvetska
 
