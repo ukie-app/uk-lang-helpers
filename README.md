@@ -10,11 +10,11 @@ Syllable forming rules:
  
 Based on rules specified in [EdEra book](https://edera.gitbook.io/ed-era-book-ukr/fonetika_grafka_orfoepya/sklad_skladopodl)
 
-Main rule: vowels form syllables
+**Main rule: vowels form syllables**
 1. There are as many syllables as there are vowels
 2. A syllable cannot exist without a vowel
     
-Cases to form a new syllable with the current consonant:
+**Cases to form a new syllable with the current consonant:**
 1. both neighbors are vowels (`г` in `кни-га`)
 2. it's sonorant and its previous neighbor is sonorant as well (`н` in` вiль-но`, `н` in `вiр-нiсть`)
 3. it's voiced and its previous neighbor is voiceless (`т` in `греб-ти`, `к` in `нiж-ка`)
