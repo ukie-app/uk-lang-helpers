@@ -1,8 +1,11 @@
 # uk-lang-helpers
 A repo for storing helper functions needed to process the Ukrainian language in various ways
 
+## Available functions:
+* [splitTheWordIntoSyllables(str: word, enableDebug: false)](#splitTheWordIntoSyllables)
 
-### splitTheWordIntoSyllables(str: word)
+<a name="splitTheWordIntoSyllables"></a>
+### splitTheWordIntoSyllables(str: word, enableDebug: false)
 
 This function splits the word into syllables
 
