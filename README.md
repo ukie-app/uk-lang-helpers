@@ -11,8 +11,8 @@ Syllable forming rules:
 Based on rules specified in [EdEra book](https://edera.gitbook.io/ed-era-book-ukr/fonetika_grafka_orfoepya/sklad_skladopodl)
 
 Main rule: vowels form syllables
-There are as many syllables as there are vowels.
-Syllables cannot exist without vowels in them.
+1. There are as many syllables as there are vowels
+2. A syllable cannot exist without a vowel
     
 Cases to form a new syllable with the current consonant:
 1. both neighbors are vowels (`г` in `кни-га`)
