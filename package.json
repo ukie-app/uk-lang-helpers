@@ -1,6 +1,6 @@
 {
   "name": "@ukie-app/uk-lang-helpers",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "helper functions for processing the Ukrainian language",
   "main": "index.js",
   "scripts": {

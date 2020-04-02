@@ -14,13 +14,19 @@
 
 */
 
-exports.splitTheWordIntoSyllables = function (word, enableDebug = false) {
+exports.splitTheWordIntoSyllables = function (word, typeOfDebug = "none") {
 
-  function log(message) {
-    if (enableDebug) { 
-      console.log(message)
+  function log(message, arg, type="all") {
+    if (typeOfDebug === "full") { 
+      console.log(message, arg)
+    }
+    else if(typeOfDebug === "syllables") {
+      if (type === "syllables") {
+        console.log(message, arg)
+      }
     }
   }
+
 
   const vowels = ["а", "е", "є", "и", "і", "ї", "о", "у", "ю", "я"]
 
@@ -160,23 +166,25 @@ exports.splitTheWordIntoSyllables = function (word, enableDebug = false) {
       nextChar = ""
     }
 
-    log("\nprevChar", prevChar, "\ncurrChar", currChar, "\nnextChar", nextChar)
+    log("\nprevChar", prevChar)
+    log("currChar", currChar)
+    log("nextChar", nextChar)
 
     // first char or last char in the string
     // (except soft sign)
     // just gets added automatically
-    if ((charNum === 0) || (charNum === word.length - 1) && (currChar !== "ь")) {
-      log("add first/last letter:", currChar)
-      currSyllable += currChar
-    }
+    // if ((charNum === 0) || (charNum === word.length - 1) && (currChar !== "ь")) {
+    //   log("add first/last letter:", currChar)
+    //   currSyllable += currChar
+    // }
 
     // the rest of the string
-    else {
+    
       
       // if currChar is a vowel
       if (vowels.includes(currChar)) {
         // if the previous char is a vowel and the next is a consonant
-        if ((vowels.includes(prevChar)) && (consonants.includes(nextChar))) {
+        if ((vowels.includes(prevChar)) ) {
           // form a new syllable
           log("decide whether to form a new syllable with", currChar)
           currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
@@ -202,11 +210,16 @@ exports.splitTheWordIntoSyllables = function (word, enableDebug = false) {
             currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
           }
 
-          // case 2: it's sonorant and its previous neighbor is sonorant as well
-          else if (sonorantConsonantSounds.includes(currChar) && sonorantConsonantSounds.includes(prevChar)) {
+          else if (sonorantConsonantSounds.includes(prevChar)) {
             log("case 2, decide whether to form a new syllable with", currChar)
             currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
           }
+
+          // // case 2: it's sonorant and its previous neighbor is sonorant as well
+          // else if (sonorantConsonantSounds.includes(currChar) && sonorantConsonantSounds.includes(prevChar)) {
+          //   log("case 2, decide whether to form a new syllable with", currChar)
+          //   currSyllable = decideWhetherToFormNewSyllable(currSyllable, currChar)
+          // }
           
           // case 3: it's voiced and its previous neighbor is voiceless
           else if (voicelessConsonantSounds.includes(currChar) && voicedConsonantSounds.includes(prevChar)) {
@@ -246,7 +259,7 @@ exports.splitTheWordIntoSyllables = function (word, enableDebug = false) {
           }
         }
       }
-    }
+    
 
     log("\ncurrSyllable", currSyllable)
 
@@ -257,7 +270,7 @@ exports.splitTheWordIntoSyllables = function (word, enableDebug = false) {
 
   }
 
-  log("\nsyllables list:", syllables)
+  log("\nsyllables list:", syllables, "syllables")
 
   // combine the list of syllables into one string separated by hyphens
   return syllables.join("-")
