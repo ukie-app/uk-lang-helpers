@@ -4,6 +4,22 @@ A repo for storing helper functions needed to process the Ukrainian language in 
 ## Available functions:
 * [splitTheWordIntoSyllables(str: word, enableDebug: false)](#splitTheWordIntoSyllables)
 
+## Usage
+Install the package via npm
+
+`npm i @ukie-app/uk-lang-helpers --save-dev`
+
+Import the specific function into your project
+
+`const { splitTheWordIntoSyllables } = require('@ukie-app/uk-lang-helpers')`
+
+## Build
+if you want to clone GitHub repo and test it locally you can run
+
+`npm run test`
+
+to run tests specified in the `tests/testObj.js` file
+
 <a name="splitTheWordIntoSyllables"></a>
 ### splitTheWordIntoSyllables(str: word, enableDebug: false)
 

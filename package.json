@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "helper functions for processing the Ukrainian language",
   "main": "index.js",
+  "scripts": {
+    "test": "node tests/test.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jellysquider/uk-lang-helpers.git"
